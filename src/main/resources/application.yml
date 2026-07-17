@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: mentor-portal
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/mentor_portal
+    username: root
+    password: aaditya@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 20
+        queue-capacity: 100
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+jwt:
+  secret: ${JWT_SECRET:dev-only-secret-change-in-production-256-bits!!}
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+sms:
+  provider: ${SMS_PROVIDER:twilio}
+  api-key: ${SMS_API_KEY:}
+  provider-url: ${SMS_PROVIDER_URL:}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
