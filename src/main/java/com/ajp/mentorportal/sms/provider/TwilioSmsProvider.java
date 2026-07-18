@@ -24,9 +24,9 @@ public class TwilioSmsProvider implements SmsProvider {
     @Override
     public SmsResponse send(String phone, String message) {
         String apiKey = smsProperties.getApiKey();
-        if (apiKey == null || !apiKey.contains(":")) {
-            throw new IllegalArgumentException("Twilio API key must be configured in 'AccountSid:AuthToken:FromPhoneNumber' format in application.yml");
-        }
+if (apiKey == null || !apiKey.contains(":")) {
+    throw new IllegalArgumentException("Twilio credentials must be configured via 'sms.api-key' (env: SMS_API_KEY) in 'AccountSid:AuthToken:FromPhoneNumber' format");
+}
 
         String[] parts = apiKey.split(":");
         if (parts.length < 3) {
