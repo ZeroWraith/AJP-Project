@@ -41,9 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null) {
             if (jwtTokenProvider.validateToken(token)) {
                 try {
-Long userId = jwtTokenProvider.extractUserId(token);
+                    Long userId = jwtTokenProvider.extractUserId(token);
 
-User user = userRepository.findById(userId).orElse(null);
+                    User user = userRepository.findById(userId).orElse(null);
 
                     if (user != null && user.getIsActive()) {
                         List<SimpleGrantedAuthority> authorities = List.of(
@@ -59,11 +59,10 @@ User user = userRepository.findById(userId).orElse(null);
                         sendUnauthorized(response, "User account not found or inactive");
                         return;
                     }
-} catch (Exception e) {
-    log.error("Error processing JWT token", e);
-    sendUnauthorized(response, "Invalid token");
-    return;
-}
+                } catch (Exception e) {
+                    log.error("Error processing JWT token", e);
+                    sendUnauthorized(response, "Invalid token");
+                    return;
                 }
             } else {
                 sendUnauthorized(response, "Invalid or expired token");
