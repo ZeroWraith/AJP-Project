@@ -51,7 +51,6 @@ public class SecurityConfig {
                 .requestMatchers("/api/meetings/**").authenticated()
                 .requestMatchers("/api/messages/**").authenticated()
                 .requestMatchers("/api/dashboard/**").authenticated()
-                .requestMatchers("/api/auth/me/**").authenticated()
 
                 .anyRequest().authenticated()
             )
