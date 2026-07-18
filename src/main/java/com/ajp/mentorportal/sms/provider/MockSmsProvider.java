@@ -12,7 +12,7 @@ public class MockSmsProvider implements SmsProvider {
 
     @Override
     public SmsResponse send(String phone, String message) {
-        log.info("Sending mock SMS to phone: {} | Message: {}", phone, message);
+        log.debug("Sending mock SMS to phone: {}", phone);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
