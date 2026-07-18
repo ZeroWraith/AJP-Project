@@ -47,12 +47,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     if (user != null && user.getIsActive()) {
                         List<SimpleGrantedAuthority> authorities = List.of(
-                                new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
-                        );
-
+                                new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
                         UsernamePasswordAuthenticationToken authentication =
                                 new UsernamePasswordAuthenticationToken(user, null, authorities);
-
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     } else {
                         log.warn("User not found or inactive for userId: {}", userId);
@@ -75,8 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getServletPath();
-        return path.startsWith("/api/auth/");
+        return request.getServletPath().startsWith("/api/auth/");
     }
 
     private String extractToken(HttpServletRequest request) {
@@ -91,12 +87,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
-
-        Map<String, String> body = Map.of(
-                "error", "Unauthorized",
-                "message", message
-        );
-
-        objectMapper.writeValue(response.getOutputStream(), body);
+        objectMapper.writeValue(response.getOutputStream(),
+                Map.of("error", "Unauthorized", "message", message));
     }
 }
