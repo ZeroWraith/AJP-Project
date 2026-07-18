@@ -60,10 +60,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         sendUnauthorized(response, "User account not found or inactive");
                         return;
                     }
-                } catch (Exception e) {
-                    log.error("Error processing JWT token: {}", e.getMessage());
-                    sendUnauthorized(response, "Invalid token");
-                    return;
+} catch (Exception e) {
+    log.error("Error processing JWT token", e);
+    sendUnauthorized(response, "Invalid token");
+    return;
+}
                 }
             } else {
                 sendUnauthorized(response, "Invalid or expired token");
