@@ -69,8 +69,7 @@ public class SmsService {
     /**
      * Sends the same SMS message to multiple phone numbers concurrently and asynchronously.
      */
-    @Async
-    public CompletableFuture<List<SmsResponse>> sendBulkSms(List<String> phones, String message) {
+public CompletableFuture<List<SmsResponse>> sendBulkSms(List<String> phones, String message) {
         log.info("Async bulk sending SMS to {} recipients", phones.size());
 
         List<CompletableFuture<SmsResponse>> futures = phones.stream()
