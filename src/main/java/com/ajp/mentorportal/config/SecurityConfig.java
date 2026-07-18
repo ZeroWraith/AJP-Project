@@ -1,17 +1,28 @@
 package com.ajp.mentorportal.config;
 
+import com.ajp.mentorportal.auth.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -19,11 +30,31 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                // Public
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().permitAll()
-            );
+
+                // ADMIN only
+                .requestMatchers("/api/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/assignments").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/assignments").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/assignments/**").hasRole("ADMIN")
+                .requestMatchers("/api/bulk-messages/**").hasRole("ADMIN")
+                .requestMatchers("/api/templates/**").hasRole("ADMIN")
+                .requestMatchers("/api/groups/**").hasRole("ADMIN")
+
+                // Authenticated
+                .requestMatchers("/api/assignments/my").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/assignments/**").authenticated()
+                .requestMatchers("/api/meetings/**").authenticated()
+                .requestMatchers("/api/messages/**").authenticated()
+                .requestMatchers("/api/dashboard/**").authenticated()
+                .requestMatchers("/api/auth/me/**").authenticated()
+
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -31,5 +62,10 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 }
