@@ -46,9 +46,9 @@ public class TwilioSmsProvider implements SmsProvider {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         
         // Basic Authentication
-        String auth = accountSid + ":" + authToken;
-        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
-        headers.set("Authorization", "Basic " + encodedAuth);
+String auth = accountSid + ":" + authToken;
+String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+headers.set("Authorization", "Basic " + encodedAuth);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("To", phone);
