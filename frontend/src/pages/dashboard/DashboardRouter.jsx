@@ -1,6 +1,7 @@
 import { useAuth } from '../../context/AuthContext';
 import AdminDashboard from './AdminDashboard';
 import MentorDashboard from './MentorDashboard';
+import MenteeDashboard from './MenteeDashboard';
 import { Container, Typography } from '@mui/material';
 
 export default function DashboardRouter() {
@@ -12,12 +13,7 @@ export default function DashboardRouter() {
     case 'MENTOR':
       return <MentorDashboard />;
     case 'MENTEE':
-      return (
-        <Container>
-          <Typography variant="h5">Mentee Dashboard</Typography>
-          <Typography color="text.secondary">Coming soon</Typography>
-        </Container>
-      );
+      return <MenteeDashboard />;
     default:
       return (
         <Container>
