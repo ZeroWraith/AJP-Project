@@ -25,10 +25,9 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  LineChart,
-  Line,
 } from 'recharts';
 import api from '../../api/axios';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 const COLORS = ['#1976d2', '#9c27b0', '#2e7d32'];
 
@@ -76,6 +75,7 @@ export default function AdminDashboard() {
   }
 
   if (error) return <Alert severity="error">{error}</Alert>;
+  if (!data) return null;
 
   const roleData = data.usersByRole
     ? Object.entries(data.usersByRole).map(([name, value]) => ({ name, value }))
@@ -106,64 +106,66 @@ export default function AdminDashboard() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2}>
-        {roleData.length > 0 && (
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>Users by Role</Typography>
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                    <Pie data={roleData} cx="50%" cy="50%" outerRadius={80} dataKey="value" label>
-                      {roleData.map((_, index) => (
-                        <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </Grid>
-        )}
+      <ErrorBoundary>
+        <Grid container spacing={2}>
+          {roleData.length > 0 && (
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>Users by Role</Typography>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                      <Pie data={roleData} cx="50%" cy="50%" outerRadius={80} dataKey="value" label>
+                        {roleData.map((_, index) => (
+                          <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
 
-        {data.meetingsOverTime?.length > 0 && (
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>Meetings Over Time</Typography>
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={data.meetingsOverTime}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#1976d2" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </Grid>
-        )}
+          {data.meetingsOverTime?.length > 0 && (
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>Meetings Over Time</Typography>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={data.meetingsOverTime}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="count" fill="#1976d2" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
 
-        {data.recentActivity?.length > 0 && (
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>Recent Activity</Typography>
-                <Box sx={{ maxHeight: 250, overflow: 'auto' }}>
-                  {data.recentActivity.map((activity, i) => (
-                    <Box key={i} sx={{ py: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
-                      <Typography variant="body2">{activity.description || JSON.stringify(activity)}</Typography>
-                      <Typography variant="caption" color="text.secondary">{activity.timestamp || ''}</Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        )}
-      </Grid>
+          {data.recentActivity?.length > 0 && (
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>Recent Activity</Typography>
+                  <Box sx={{ maxHeight: 250, overflow: 'auto' }}>
+                    {data.recentActivity.map((activity, i) => (
+                      <Box key={i} sx={{ py: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                        <Typography variant="body2">{activity.description || JSON.stringify(activity)}</Typography>
+                        <Typography variant="caption" color="text.secondary">{activity.timestamp || ''}</Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
+        </Grid>
+      </ErrorBoundary>
     </Box>
   );
 }
