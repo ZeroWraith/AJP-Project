@@ -6,6 +6,7 @@ import UnauthorizedPage from './pages/UnauthorizedPage';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardRouter from './pages/dashboard/DashboardRouter';
+import UserManagement from './pages/users/UserManagement';
 
 function App() {
   return (
@@ -52,14 +53,7 @@ function App() {
           />
 
           <Route element={<ProtectedRoute roles={['ADMIN']} />}>
-            <Route
-              path="/users"
-              element={
-                <Container>
-                  <Typography variant="h5">Users</Typography>
-                </Container>
-              }
-            />
+            <Route path="/users" element={<UserManagement />} />
             <Route
               path="/assignments"
               element={
