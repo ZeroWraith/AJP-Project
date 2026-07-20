@@ -9,6 +9,7 @@ import DashboardRouter from './pages/dashboard/DashboardRouter';
 import UserManagement from './pages/users/UserManagement';
 import AssignmentPage from './pages/assignments/AssignmentPage';
 import MeetingPage from './pages/meetings/MeetingPage';
+import GroupPage from './pages/groups/GroupPage';
 
 function App() {
   return (
@@ -50,14 +51,7 @@ function App() {
           <Route element={<ProtectedRoute roles={['ADMIN']} />}>
             <Route path="/users" element={<UserManagement />} />
             <Route path="/assignments" element={<AssignmentPage />} />
-            <Route
-              path="/groups"
-              element={
-                <Container>
-                  <Typography variant="h5">Groups</Typography>
-                </Container>
-              }
-            />
+            <Route path="/groups" element={<GroupPage />} />
             <Route
               path="/bulk-messages"
               element={
