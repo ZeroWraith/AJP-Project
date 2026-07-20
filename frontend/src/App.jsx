@@ -5,6 +5,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
+import DashboardRouter from './pages/dashboard/DashboardRouter';
 
 function App() {
   return (
@@ -16,14 +17,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route
-            path="/dashboard"
-            element={
-              <Container>
-                <Typography variant="h5">Dashboard</Typography>
-              </Container>
-            }
-          />
+          <Route path="/dashboard" element={<DashboardRouter />} />
           <Route
             path="/meetings"
             element={
