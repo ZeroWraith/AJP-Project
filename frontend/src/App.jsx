@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardRouter from './pages/dashboard/DashboardRouter';
 import UserManagement from './pages/users/UserManagement';
+import AssignmentPage from './pages/assignments/AssignmentPage';
 
 function App() {
   return (
@@ -54,14 +55,7 @@ function App() {
 
           <Route element={<ProtectedRoute roles={['ADMIN']} />}>
             <Route path="/users" element={<UserManagement />} />
-            <Route
-              path="/assignments"
-              element={
-                <Container>
-                  <Typography variant="h5">Assignments</Typography>
-                </Container>
-              }
-            />
+            <Route path="/assignments" element={<AssignmentPage />} />
             <Route
               path="/groups"
               element={
