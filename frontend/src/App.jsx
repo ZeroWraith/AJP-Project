@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import DashboardRouter from './pages/dashboard/DashboardRouter';
 import UserManagement from './pages/users/UserManagement';
 import AssignmentPage from './pages/assignments/AssignmentPage';
+import MeetingPage from './pages/meetings/MeetingPage';
 
 function App() {
   return (
@@ -20,14 +21,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardRouter />} />
-          <Route
-            path="/meetings"
-            element={
-              <Container>
-                <Typography variant="h5">Meetings</Typography>
-              </Container>
-            }
-          />
+          <Route path="/meetings" element={<MeetingPage />} />
           <Route
             path="/messages"
             element={
