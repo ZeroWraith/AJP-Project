@@ -10,6 +10,7 @@ import UserManagement from './pages/users/UserManagement';
 import AssignmentPage from './pages/assignments/AssignmentPage';
 import MeetingPage from './pages/meetings/MeetingPage';
 import GroupPage from './pages/groups/GroupPage';
+import BulkMessagePage from './pages/messages/BulkMessagePage';
 
 function App() {
   return (
@@ -52,14 +53,7 @@ function App() {
             <Route path="/users" element={<UserManagement />} />
             <Route path="/assignments" element={<AssignmentPage />} />
             <Route path="/groups" element={<GroupPage />} />
-            <Route
-              path="/bulk-messages"
-              element={
-                <Container>
-                  <Typography variant="h5">Bulk Messages</Typography>
-                </Container>
-              }
-            />
+            <Route path="/bulk-messages" element={<BulkMessagePage />} />
           </Route>
         </Route>
       </Route>
