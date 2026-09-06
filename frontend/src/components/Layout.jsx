@@ -41,6 +41,7 @@ const NAV_ITEMS = {
     { text: 'Assignments', icon: <AssignmentIcon />, path: '/assignments' },
     { text: 'Meetings', icon: <MeetingRoomIcon />, path: '/meetings' },
     { text: 'Groups', icon: <GroupsIcon />, path: '/groups' },
+    { text: 'Templates', icon: <MailOutlineIcon />, path: '/templates' },
     { text: 'Bulk Messages', icon: <MailOutlineIcon />, path: '/bulk-messages' },
   ],
   MENTOR: [
