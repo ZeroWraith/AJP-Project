@@ -159,7 +159,7 @@ mvn clean compile
 mvn spring-boot:run
 ```
 
-The backend starts on **http://localhost:8080**.
+The backend starts on **http://localhost:8081**.
 
 ### 3. Frontend
 
@@ -170,7 +170,7 @@ npm install
 npm run dev
 ```
 
-The frontend starts on **http://localhost:3000** and proxies `/api` requests to `localhost:8080`.
+The frontend starts on **http://localhost:3000** and proxies `/api` requests to `localhost:8081`.
 
 ### 4. Seed Data
 
@@ -348,7 +348,7 @@ npm run build
 
 ## API Documentation
 
-Swagger UI is available at **http://localhost:8080/swagger-ui.html** when the backend is running.
+Swagger UI is available at **http://localhost:8081/swagger-ui.html** when the backend is running.
 
 ---
 

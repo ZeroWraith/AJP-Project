@@ -63,7 +63,8 @@ class SmsServiceTest {
         assertTrue(result.isSuccess());
         assertEquals("123", result.getPhone());
         verify(twilioSmsProvider).send("123", "Hello");
-        verifyNoInteractions(mockSmsProvider, genericSmsProvider);
+        verify(mockSmsProvider, never()).send(anyString(), anyString());
+        verify(genericSmsProvider, never()).send(anyString(), anyString());
     }
 
     @Test
@@ -81,7 +82,8 @@ class SmsServiceTest {
         assertTrue(result.isSuccess());
         assertEquals("456", result.getPhone());
         verify(genericSmsProvider).send("456", "Hello");
-        verifyNoInteractions(mockSmsProvider, twilioSmsProvider);
+        verify(mockSmsProvider, never()).send(anyString(), anyString());
+        verify(twilioSmsProvider, never()).send(anyString(), anyString());
     }
 
     @Test
@@ -99,7 +101,8 @@ class SmsServiceTest {
         assertTrue(result.isSuccess());
         assertEquals("789", result.getPhone());
         verify(mockSmsProvider).send("789", "Hello");
-        verifyNoInteractions(twilioSmsProvider, genericSmsProvider);
+        verify(twilioSmsProvider, never()).send(anyString(), anyString());
+        verify(genericSmsProvider, never()).send(anyString(), anyString());
     }
 
     @Test
