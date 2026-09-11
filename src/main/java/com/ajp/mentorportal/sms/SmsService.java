@@ -2,8 +2,8 @@ package com.ajp.mentorportal.sms;
 
 import com.ajp.mentorportal.sms.provider.SmsProvider;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,17 @@ import java.util.concurrent.Executor;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class SmsService {
 
     private final SmsProperties smsProperties;
     private final List<SmsProvider> providers;
     private final Executor taskExecutor;
+
+    public SmsService(SmsProperties smsProperties, List<SmsProvider> providers, @Qualifier("smsExecutor") Executor taskExecutor) {
+        this.smsProperties = smsProperties;
+        this.providers = providers;
+        this.taskExecutor = taskExecutor;
+    }
 
     private SmsProvider activeProvider;
 
